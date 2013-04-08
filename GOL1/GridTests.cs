@@ -22,18 +22,18 @@ namespace GOL1
         public void TestUnderPopulation_Death()
         {
             // Any live cell with fewer than two live neighbours dies, as if caused by under-population.
-            var game = new Grid(new Cell(1,1), new Cell(0,0));
-            var evolvedGame = game.Evolve();
-            Assert.IsFalse(evolvedGame.IsAlive(new Cell(1, 1)));
+            var grid = new Grid(new Cell(1,1), new Cell(0,0));
+            grid.Evolve();
+            Assert.IsFalse(grid.IsAlive(new Cell(1, 1)));
         }
 
         [Test]
         public void TestUnderPopulation_Life()
         {
             // Any live cell with fewer than two live neighbours dies, as if caused by under-population.
-            var game = new Grid(new Cell(0, 0), new Cell(0, 1), new Cell(1, 0), new Cell(1,1));
-            var evolvedGame = game.Evolve();
-            Assert.IsTrue(evolvedGame.IsAlive(new Cell(1, 1)));
+            var grid = new Grid(new Cell(0, 0), new Cell(0, 1), new Cell(1, 0), new Cell(1, 1));
+            grid.Evolve();
+            Assert.IsTrue(grid.IsAlive(new Cell(1, 1)));
         }
     }
 }

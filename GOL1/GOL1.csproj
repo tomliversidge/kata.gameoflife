@@ -44,8 +44,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Cell.cs" />
-    <Compile Include="Game.cs" />
-    <Compile Include="GameTests.cs" />
+    <Compile Include="Grid.cs" />
+    <Compile Include="GridTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

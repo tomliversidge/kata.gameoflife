@@ -5,14 +5,14 @@
 
     public class Grid
     {
-        private readonly List<Cell> liveCells;
+        private HashSet<Cell> liveCells;
 
         public Grid(params Cell[] cells)
         {
-            this.liveCells = new List<Cell>(cells);
+            this.liveCells = new HashSet<Cell>(cells);
         }
 
-        public Grid Evolve()
+        public void Evolve()
         {
             // get the surviving cells based on the first 3 rules
             var cellsThatSurvive = liveCells.Where(cell => this.GetLiveAdjacentCells(cell).Count() == 2 || this.GetLiveAdjacentCells(cell).Count() == 3);
@@ -20,10 +20,9 @@
             // get the cells to revive based on the 4th rule
             var cellsThatRevive = liveCells.SelectMany(GetDeadAdjacentCells).Where(cell => GetLiveAdjacentCells(cell).Count() == 3);
 
-            // join the two collections together and return a new grid
-            return new Grid(cellsThatSurvive.Union(cellsThatRevive).ToArray());
+            // join the two collections together and set the cells
+            liveCells = new HashSet<Cell>(cellsThatSurvive.Union(cellsThatRevive));
         }
-
         
         private IEnumerable<Cell> GetAdjacentCells(Cell cell)
         {
