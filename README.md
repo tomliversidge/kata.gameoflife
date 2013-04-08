@@ -52,4 +52,11 @@ This is very similar to the first rule... In fact, come to think of it, so is th
 If we combine these rules, we have a very simple check for the count of live neighbours; 2 or 3 live neighbours and the 
 cell lives, any other amount and it dies. 
 
-    var nextGeneration = cells.Where(currentCell => this.CountOfAdjacentLiveCells(currentCell) == 2 || this.CountOfAdjacentLiveCells(currentCell) == 3);
+    var nextGeneration = cells.Where(currentCell => this.AdjacentLiveCellsCount(currentCell) == 2 || this.AdjacentLiveCellsCount(currentCell) == 3);
+
+## Fourth Rule
+>Any dead cell with exactly three live neighbours becomes a live cell, as if by reproduction.
+
+Things start to get a bit trickier now. We now need a way to revive dead cells. We need to get the dead neightbours and 
+see if they have exactly three live neightbours. We already have code in place to count the number of live neighbours,
+so we just need a way of getting dead neighbours.
