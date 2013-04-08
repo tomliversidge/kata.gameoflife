@@ -14,8 +14,6 @@ Wikipedia summarises the Game Of Life as:
     Any live cell with more than three live neighbours dies, as if by overcrowding.
     Any dead cell with exactly three live neighbours becomes a live cell, as if by reproduction.
 
->The initial pattern constitutes the seed of the system. The first generation is created by applying the above rules simultaneously to every cell in the seed—births and deaths occur simultaneously, and the discrete moment at which this happens is sometimes called a tick (in other words, each generation is a pure function of the preceding one). The rules continue to be applied repeatedly to create further generations.
-
 ## Initial thoughts
 
 Some elements of the game are quickly apparent: 
@@ -41,6 +39,8 @@ the items mentioned above before we can test this rule. We need to be able to it
 find out if they have fewer than two neightbours, and if so, kill them. This is the equivalent of removing them from our
 collection of cells.
 
+Note: a gotcha here is to remember to exclude the current cell from this equation
+
 ## Second Rule
 >Any live cell with two or three live neighbours lives on to the next generation.
 
@@ -52,8 +52,9 @@ This is very similar to the first rule... In fact, come to think of it, so is th
 If we combine these rules, we have a very simple check for the count of live neighbours; 2 or 3 live neighbours and the 
 cell lives, any other amount and it dies. 
 
-    var nextGeneration = cells.Where(currentCell => this.AdjacentLiveCellsCount(currentCell) == 2 
-    || this.AdjacentLiveCellsCount(currentCell) == 3);
+    var cellsThatSurvive = liveCells.Where(cell => this.GetLiveAdjacentCells(cell).Count() == 2 || 
+    this.GetLiveAdjacentCells(cell).Count() == 3);
+
 
 ## Fourth Rule
 >Any dead cell with exactly three live neighbours becomes a live cell, as if by reproduction.
@@ -62,5 +63,21 @@ Things start to get a bit trickier now. We now need a way to revive dead cells. 
 see if they have exactly three live neightbours. We already have code in place to count the number of live neighbours,
 so we just need a way of getting dead neighbours. Something along the lines of: 
 
-    var cellsToRevive = cells.SelectMany(CodeToCreateDeadCells).Where(currentCell => 
-    this.AdjacentLiveCellsCount(currentCell) == 3);
+    var cellsThatRevive = liveCells.SelectMany(GetDeadAdjacentCells).Where(cell => 
+    GetLiveAdjacentCells(cell).Count() == 3);
+
+These two collections can then be joined together to produce the output:
+
+    liveCells = new HashSet<Cell>(cellsThatSurvive.Union(cellsThatRevive));
+    
+This passes the following tests:
+
+* CellDiesWithNoNeighbours()
+* CellDiesWithOneNeighbour()
+* CellLivesWithTwoNeighbours()
+* CellLivesWithThreeNeighbours()
+* CellDiesWithFourNeighbours()
+* CellDiesWithFiveNeighbours()
+* CellDoesNotReviveWithTwoLiveNeighbours()
+* CellRevivesWithThreeLiveNeighbours()
+* CellDoesNotReviveWithFourLiveNeighbours()
