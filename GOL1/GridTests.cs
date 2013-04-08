@@ -9,7 +9,7 @@ namespace GOL1
     using NUnit.Framework;
 
     [TestFixture]
-    public class GameTests
+    public class GridTests
     {
         /// <summary>
         /// Any live cell with fewer than two live neighbours dies, as if caused by under-population.
@@ -22,7 +22,7 @@ namespace GOL1
         public void TestUnderPopulation_Death()
         {
             // Any live cell with fewer than two live neighbours dies, as if caused by under-population.
-            var game = new Game(new Cell(1,1), new Cell(0,0));
+            var game = new Grid(new Cell(1,1), new Cell(0,0));
             var evolvedGame = game.Evolve();
             Assert.IsFalse(evolvedGame.IsAlive(new Cell(1, 1)));
         }
@@ -31,7 +31,7 @@ namespace GOL1
         public void TestUnderPopulation_Life()
         {
             // Any live cell with fewer than two live neighbours dies, as if caused by under-population.
-            var game = new Game(new Cell(0, 0), new Cell(0, 1), new Cell(1, 0), new Cell(1,1));
+            var game = new Grid(new Cell(0, 0), new Cell(0, 1), new Cell(1, 0), new Cell(1,1));
             var evolvedGame = game.Evolve();
             Assert.IsTrue(evolvedGame.IsAlive(new Cell(1, 1)));
         }
