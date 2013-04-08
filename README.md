@@ -20,6 +20,7 @@ Wikipedia summarises the Game Of Life as:
 
 Some elements of the game are quickly apparent: 
 
+* We need an intial state
 * We need a way of moving on to the next generation of the system
 * We need to return a representation of the current state of the grid.
 * We can also be confident we need a way of determining the adjacent cells 
@@ -35,4 +36,20 @@ A better approach is to presume life by existence. If a cell exists, it is alive
 
 >Any live cell with fewer than two live neighbours dies, as if caused by under-population.
 
-This is a reasonably simply rule, but forms the foundation on which we will build our game.
+This is a reasonably simply rule, but forms the foundation on which we will build our game. We need to implement all of
+the items mentioned above before we can test this rule. We need to be able to iterate through current live cells, 
+find out if they have fewer than two neightbours, and if so, kill them. This is the equivalent of removing them from our
+collection of cells.
+
+## Second Rule
+>Any live cell with two or three live neighbours lives on to the next generation.
+
+This is very similar to the first rule... In fact, come to think of it, so is the third rule:
+
+## Third Rule
+>Any live cell with more than three live neighbours dies, as if by overcrowding.
+
+If we combine these rules, we have a very simple check for the count of live neighbours; 2 or 3 live neighbours and the 
+cell lives, any other amount and it dies. 
+
+    var nextGeneration = cells.Where(currentCell => this.CountOfAdjacentLiveCells(currentCell) == 2 || this.CountOfAdjacentLiveCells(currentCell) == 3);
