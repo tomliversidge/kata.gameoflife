@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace GOL1
 {
-    public struct Cell : IEquatable<Cell>
+    public struct Cell 
     {
         private readonly int x;
 
@@ -29,11 +29,6 @@ namespace GOL1
             {
                 return x;
             }
-        }
-
-        public bool Equals(Cell other)
-        {
-            return this.X == other.x && this.Y == other.y;
         }
     }
 }

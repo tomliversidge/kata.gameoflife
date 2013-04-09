@@ -26,15 +26,13 @@
         
         private IEnumerable<Cell> GetAdjacentCells(Cell cell)
         {
+            // for the passed in cell, find the adjacent cells by their co-ordinates
+            // excluding the current cell 
             var adjacentCells = new int[]{-1,0,1};
-            foreach (var x in adjacentCells)
-            {
-                foreach (var y in adjacentCells)
-                {
-                    if(!(IsCurrentCell(x, y)))
-                        yield return new Cell(cell.X + x, cell.Y + y);
-                }
-            }
+            return from x in adjacentCells 
+                   from y in adjacentCells 
+                   where !(IsCurrentCell(x, y)) 
+                   select new Cell(cell.X + x, cell.Y + y);
         }
 
         private static bool IsCurrentCell(int x, int y)
